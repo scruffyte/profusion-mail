@@ -13,7 +13,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install Dovecot
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends dovecot-core dovecot-sasl && \
+    apt-get install -y --no-install-recommends dovecot-core && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set work directory
