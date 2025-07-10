@@ -1,0 +1,33 @@
+services:
+
+  # The main postfix based MTA container. See profusion-postfix/Dockerfile for explination & comments.
+  profusion-postfix:
+    build:
+      context: ./profusion-postfix
+    volumes:
+      - ./certs:/etc/ssl/mail:ro    # Mounting certs instead of baking them into the image for better security.
+    networks:
+      - sasl    # Private network to facilitate SASL with Dovecot
+    ports:
+      - "25:25"     # SMTP
+      - "587:587"   # SUBMISSION
+    environment:    # Do not edit: see .env instead
+      ALLOW_RELAY_FROM: ${ALLOW_RELAY_FROM}
+      RELAY_TO_ADDRESS: ${RELAY_TO_ADDRESS}
+      HOSTNAME: ${HOSTNAME:-mail.example.com}
+      DOMAIN: ${DOMAIN:-example.com}
+
+  # I'm using a separate dovecot container purely for SASL authentication on port 587/submission.
+  # This ensures the postfix container is lightweight and scalable, independently of dovecot.
+  # Since dovecot is doing nothing but SASL, we don't even need to mount the certificates (but we could if using dovcot for IMAP/POP3 as well!)
+  profusion-dovecot:
+    build:
+      context: ./profusion-dovecot
+    networks:
+      - sasl
+    environment: # THIS IS NOT IDEAL. Hardcoding credentials is bad. However it servers as a simple demonstration for this task, and there's not really a straightforward way out without a whole hoohah of LDAP servers or databases (preferred). At least an alphanumeric password thwarts bruteforce attempts.
+      SMTP_USER: ${SMTP_USER:-profusion}
+      SMTP_PASS: ${SMTP_PASS:-OL3GhU0k1v2}
+
+networks:
+  sasl:

@@ -1,0 +1,24 @@
+# Basic config
+myhostname = [{{HOSTNAME}}]
+mydomain = [{{DOMAIN}}]
+myorigin = $mydomain
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+
+inet_interfaces = all
+
+# Relay restrictions
+mynetworks = [{{ALLOW_RELAY_FROM}}]
+smtpd_recipient_restrictions = permit_mynetworks, reject_unauth_destination, reject
+
+# TLS settings
+smtpd_tls_cert_file = /etc/ssl/mail/cert.pem
+smtpd_tls_key_file = /etc/ssl/mail/key.pem
+smtpd_use_tls = yes
+smtpd_tls_security_level = may
+smtp_tls_security_level = encrypt
+
+# SASL config for dovecot
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = inet:profusion-dovecot:12345
+smtpd_sasl_security_options = noanonymous
