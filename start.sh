@@ -5,7 +5,7 @@
 CRT="certs/cert.pem"
 KEY="certs/key.pem"
 
-if [[ -f certs/cert.pem && -f /certs/key.pem ]]; then
+if [[ -f certs/cert.pem && -f certs/key.pem ]]; then
     echo "[SSL] Using provided SSL certs."
 else
     echo "[SSL] No certs found. Generating snake oil certs..."
