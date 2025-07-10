@@ -5,9 +5,9 @@ set -e
 HASHED_PASS=$(doveadm pw -s SHA512-CRYPT -p "$SMTP_PASS")
 
 # Write to sasl.passwd
-echo "$SMTP_USER:$HASHED_PASS" > /etc/dovecot/sasl.passwd
-chown root:dovecot /etc/dovecot/sasl.passwd
-chmod 640 /etc/dovecot/sasl.passwd
+echo "$SMTP_USER:$HASHED_PASS" >/etc/dovecot/passwd
+chown root:dovecot /etc/dovecot/passwd
+chmod 640 /etc/dovecot/passwd
 
 echo "Created SASL user $SASL_USER"
 
