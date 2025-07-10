@@ -5,7 +5,7 @@
 CRT="certs/cert.pem"
 KEY="certs/key.pem"
 
-if [[ -f certs/*.pem ]]; then
+if [[ -f certs/cert.pem && -f /certs/key.pem]]; then
     echo "[SSL] Using provided SSL certs."
 else
     echo "[SSL] No certs found. Generating snake oil certs..."
@@ -15,4 +15,5 @@ fi
 chmod 600 "$KEY"
 chmod 644 "$CRT"
 
+docker comopse build
 docker compose up -d
