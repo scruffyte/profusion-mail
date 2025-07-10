@@ -1,8 +1,8 @@
 # Basic config
-myhostname = [{{HOSTNAME}}]
-mydomain = [{{DOMAIN}}]
-myorigin = $mydomain
-mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+myhostname = $HOSTNAME
+mydomain = $DOMAIN
+myorigin = $DOMAIN
+mydestination = $HOSTNAME, localhost.$DOMAIN, localhost, $DOMAIN
 
 inet_interfaces = all
 
