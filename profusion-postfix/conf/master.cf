@@ -1,3 +1,4 @@
+smtp inet n - y - - smtpd
 submission inet n - y - - smtpd
     -o smtpd_sasl_auth_enable=yes
     -o smtpd_tls_security_level=encrypt
