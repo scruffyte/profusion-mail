@@ -23,7 +23,7 @@ WORKDIR /opt/profusion-postfix
 
 # Copy entrypoint and template postfix config which will be added to by environment variables.
 COPY entrypoint.sh .
-COPY conf/main.cf.template ./conf/
+COPY conf/main.cf.template .
 COPY conf/master.cf /etc/postfix/
 
 # Here, I'd copy the contents of the 'certs' directory as per the instructions with:
