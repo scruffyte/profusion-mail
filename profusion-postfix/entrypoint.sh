@@ -5,4 +5,4 @@ set -e
 envsubst < /opt/profusion-postfix/main.cf.template > /etc/postfix/main.cf
 
 # Start postfix in foreground:
-exec postfix start-fg
+exec /usr/sbin/postfix start-fg
