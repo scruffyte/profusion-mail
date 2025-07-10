@@ -15,7 +15,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Runner up: Exim. Native debian support, but everyone knows Postfix. Premade FOSS bundles like Postal are great but add bloat and more attack surface (also cheating in this instance).
 # Install dependencies and clean up to reduce image size
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends postfix && \
+    apt-get install -y --no-install-recommends postfix gettext-base && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set work directory

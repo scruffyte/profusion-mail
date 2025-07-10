@@ -15,5 +15,5 @@ fi
 chmod 600 "$KEY"
 chmod 644 "$CRT"
 
-docker comopse build
+docker compose build
 docker compose up -d
