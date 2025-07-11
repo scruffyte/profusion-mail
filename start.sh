@@ -15,9 +15,6 @@ fi
 chmod 600 "$KEY"
 chmod 644 "$CRT"
 
-docker compose build
-docker compose up -d
-
 echo -e "
 
  █████   █████  ███     ███████████                        ██████                      ███                      ███
@@ -42,3 +39,20 @@ echo -e "
                                                                                                                    
 
 "
+
+DETACHED=""
+
+while getopts "d" opt; do
+  case $opt in
+    d)
+      DETACHED="-d"
+      ;;
+    *)
+      echo "Usage: $0 [-d]"
+      exit 1
+      ;;
+  esac
+done
+
+docker compose build
+docker compose up $DETACHED
