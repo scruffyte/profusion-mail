@@ -43,7 +43,7 @@ RUN chmod +x /opt/profusion-postfix/entrypoint.sh
 EXPOSE 25 587
 
 # add a healthcheck!
-HEALTHCHECK CMD bash -c "echo | nc -w 2 localhost 587 | grep -q '^220'"
+HEALTHCHECK CMD bash -c "timeout 2 nc -w 2 localhost 587 | grep -q '^220'"
 
 # Entrypoint for container startup
 ENTRYPOINT [ "/opt/profusion-postfix/entrypoint.sh" ]
