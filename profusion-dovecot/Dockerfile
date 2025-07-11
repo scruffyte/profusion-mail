@@ -22,7 +22,6 @@ WORKDIR /opt/profusion-dovecot
 # Copy entrypoint
 COPY entrypoint.sh .
 COPY conf/dovecot.conf /etc/dovecot/dovecot.conf
-COPY conf/10-master.conf /etc/dovecot/conf.d/10-master.conf
 
 RUN chmod +x /opt/profusion-dovecot/entrypoint.sh
 

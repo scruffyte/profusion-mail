@@ -1,8 +1,12 @@
 #!/bin/bash
 set -e
 
-# Substitute environment variables into the postfix config and put the final version in the postfix directory:
 envsubst < /opt/profusion-postfix/main.cf.template > /etc/postfix/main.cf
 
+echo "Starting rsyslog..."
+# Start rsyslog to capture Postfix logs and redirect them to stdout
+rsyslogd
+
+echo "Starting postfix..."
 # Start postfix in foreground:
-exec /usr/sbin/postfix start-fg
+postfix start-fg
