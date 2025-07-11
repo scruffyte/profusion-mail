@@ -1,7 +1,7 @@
-# Hi Profusion! Thank you for taking my application forward. I've recently done battle with my own mail system, so was excted to get going on this task. -Max Jacoby
+# Hi Profusion! Thank you for taking my application forward. I've recently done battle with my own mail system, and was excted to get going on this task. -Max Jacoby
 
 # Base image: I opted for debian as that's what I'm most familiar with, and the slim version to keep things small. 
-# I would use Alpine, although I'm aware it has some quirks with SSL (and in general with minimal binaries). Debain slim at 25mb is a good trade off between size, stability and practicality.
+# I would use Alpine, although I'm aware it has some quirks with SSL (and in general with minimal binaries). Especially painfull for development. Debain slim is a good trade off between size, stability and practicality.
 FROM debian:12.11-slim
 
 # So people can complain to me when it breaks
@@ -26,7 +26,7 @@ COPY entrypoint.sh .
 COPY conf/main.cf.template .
 COPY conf/master.cf /etc/postfix/master.cf
 
-# Here, I'd copy the contents of the 'certs' directory as per the instructions with:
+# Here, I'd copy the contents of the 'certs' directory with:
 # COPY certs/ /etc/ssl/mail/
 
 # However, this gives me the heebie jeebies two reasons: 
@@ -41,6 +41,9 @@ RUN chmod +x /opt/profusion-postfix/entrypoint.sh
 
 # Expose SMTP/STARTTLS & SMTPS ports
 EXPOSE 25 587
+
+# add a healthcheck!
+HEALTHCHECK CMD bash -c "echo | nc -w 2 localhost 587 | grep -q '^220'"
 
 # Entrypoint for container startup
 ENTRYPOINT [ "/opt/profusion-postfix/entrypoint.sh" ]
