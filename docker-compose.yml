@@ -26,7 +26,7 @@ services:
   dovecot:
     container_name: profusion-dovecot
     build:
-      context: ./profusion-dovecot
+      context: ./dovecot
     networks:
       - sasl
     environment: # THIS IS NOT IDEAL. Hardcoding credentials is bad. However it serves as a demonstration for this task, and there's not really a straightforward way out without a whole hoohah of LDAP servers or databases (preferred). At least an alphanumeric password thwarts bruteforce attempts.
