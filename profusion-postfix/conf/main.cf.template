@@ -19,7 +19,7 @@ smtp_tls_security_level = encrypt
 # SASL config for dovecot
 smtpd_sasl_auth_enable = yes
 smtpd_sasl_type = dovecot
-smtpd_sasl_path = inet:profusion-dovecot:12345
+smtpd_sasl_path = inet:dovecot:12345
 smtpd_sasl_security_options = noanonymous
 
 # logging

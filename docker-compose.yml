@@ -1,7 +1,8 @@
 services:
 
   # The main postfix based MTA container. See profusion-postfix/Dockerfile for explination & comments.
-  profusion-postfix:
+  postfix:
+    container_name: profusion-postfix
     build:
       context: ./profusion-postfix
     volumes:
@@ -16,11 +17,14 @@ services:
       RELAY_TO_ADDRESS: ${RELAY_TO_ADDRESS}
       HOSTNAME: ${HOSTNAME:-mail.example.com}
       DOMAIN: ${DOMAIN:-example.com}
+    depends_on:
+    - profusion-dovecot
 
   # I'm using a separate dovecot container purely for SASL authentication on port 587/submission.
   # This ensures the postfix container is lightweight and scalable, independently of dovecot.
   # Since dovecot is doing nothing but SASL, we don't even need to mount the certificates (but we could if using dovcot for IMAP/POP3 as well!)
-  profusion-dovecot:
+  dovecot:
+    container_name: profusion-dovecot
     build:
       context: ./profusion-dovecot
     networks:
