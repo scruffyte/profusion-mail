@@ -25,6 +25,11 @@ COPY conf/dovecot.conf /etc/dovecot/dovecot.conf
 
 RUN chmod +x /opt/profusion-dovecot/entrypoint.sh
 
+# Create vmail user
+RUN addgroup --system vmail && \
+    adduser --system --ingroup vmail --home /home/vmail --shell /usr/sbin/nologin vmail
+RUN mkdir -p /home/vmail && chown -R vmail:vmail /home/vmail
+
 # Expose port for SASL
 EXPOSE 12345
 
