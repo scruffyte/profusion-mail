@@ -25,7 +25,7 @@ services:
       context: ./profusion-dovecot
     networks:
       - sasl
-    environment: # THIS IS NOT IDEAL. Hardcoding credentials is bad. However it servers as a simple demonstration for this task, and there's not really a straightforward way out without a whole hoohah of LDAP servers or databases (preferred). At least an alphanumeric password thwarts bruteforce attempts.
+    environment: # THIS IS NOT IDEAL. Hardcoding credentials is bad. However it serves as a demonstration for this task, and there's not really a straightforward way out without a whole hoohah of LDAP servers or databases (preferred). At least an alphanumeric password thwarts bruteforce attempts.
       SMTP_USER: ${SMTP_USER:-profusion}
       SMTP_PASS: ${SMTP_PASS:-OL3GhU0k1v2}
 

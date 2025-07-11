@@ -9,7 +9,7 @@ echo "$SMTP_USER:$HASHED_PASS" >/etc/dovecot/passwd
 chown root:dovecot /etc/dovecot/passwd
 chmod 640 /etc/dovecot/passwd
 
-echo "Created SASL user $SASL_USER"
+echo "Created SASL user $SMTP_USER"
 
 # validate dovecot config
 dovecot -n
