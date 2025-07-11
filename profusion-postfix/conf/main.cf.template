@@ -3,7 +3,6 @@ myhostname = $HOSTNAME
 mydomain = $DOMAIN
 myorigin = $DOMAIN
 mydestination = $HOSTNAME, localhost.$DOMAIN, localhost, $DOMAIN
-
 inet_interfaces = all
 
 # Relay restrictions
@@ -22,3 +21,6 @@ smtpd_sasl_auth_enable = yes
 smtpd_sasl_type = dovecot
 smtpd_sasl_path = inet:profusion-dovecot:12345
 smtpd_sasl_security_options = noanonymous
+
+# logging
+maillog_file = /dev/stdout

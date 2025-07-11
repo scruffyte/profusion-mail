@@ -15,7 +15,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Runner up: Exim. Native debian support, but everyone knows Postfix. Premade FOSS bundles like Postal are great but add bloat and more attack surface (also cheating in this instance).
 # Install dependencies and clean up to reduce image size
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends postfix gettext-base rsyslog && \
+    apt-get install -y --no-install-recommends postfix gettext-base && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set work directory
@@ -25,7 +25,6 @@ WORKDIR /opt/profusion-postfix
 COPY entrypoint.sh .
 COPY conf/main.cf.template .
 COPY conf/master.cf /etc/postfix/master.cf
-COPY 00-docker.conf /etc/rsyslog.d/00-docker.conf
 
 # Here, I'd copy the contents of the 'certs' directory as per the instructions with:
 # COPY certs/ /etc/ssl/mail/
