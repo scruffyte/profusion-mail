@@ -34,7 +34,7 @@ RUN mkdir -p /home/vmail && chown -R vmail:vmail /home/vmail
 EXPOSE 12345
 
 # add a healthcheck!
-HEALTHCHECK CMD bash -c "echo | nc -w 2 localhost 12345 | grep -q '^220'"
+HEALTHCHECK CMD bash -c "echo | nc -w 2 localhost 12345 | grep -q 'MECH[[:space:]]*PLAIN'"
 
 # Entrypoint for container startup
 ENTRYPOINT [ "/opt/profusion-dovecot/entrypoint.sh" ]
