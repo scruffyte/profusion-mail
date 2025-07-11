@@ -4,19 +4,21 @@ Content: Profusion Media Interview Task: Create a Dockerised Mail Server
 
 REQUIREMENTS:
 
-Apart from docker and a user with correct privileges, OpenSSL is needed on the host to genereate self signed certs if necessary. Install it with:
-
-sudo apt install openssl
+1. Docker & Docker Compose
+2. OpenSSL
 
 HOW TO USE THIS IMAGE:
 
-1. If you have valid certificates, copy them into the 'certs' directory. They should be in .pem format, and should be named 'cert.pem' and 'key.pem'. If you do not provide a certificate, a self signed one will be generated.
-2. Edit '.env' to set environment variables like hostname, relay domain, allowed subnets.
-3. Run 'start.sh'. This will generate certificates if necessary and execute 'docker-compose.yml'.
+1. If you have valid certificates, copy them into the 'certs' directory. They should be named 'cert.pem' and 'key.pem'. If you do not provide a certificates, a self signed one will be generated.
+2. Edit '.env' to your liking.
+3. chmod +x start.sh
+3. Run 'start.sh -d'. This will generate certificates if necessary, build and run the setup. If you want to stdout of the containers, omit '-d'.
 
 
 
 -----------------
+
+Original Instructions:
 
 Write a brand new docker container. This container should:
 
