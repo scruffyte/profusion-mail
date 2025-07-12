@@ -2,6 +2,8 @@ Author: Max Jacoby
 Date: 09.07.25
 Content: Profusion Media Interview Task: Create a Dockerised Mail Server
 
+You may clone this repository with 'git clone 
+
 REQUIREMENTS:
 
 1. Docker & Docker Compose
@@ -12,7 +14,7 @@ HOW TO USE THIS IMAGE:
 1. If you have valid certificates, copy them into the 'certs' directory. They should be named 'cert.pem' and 'key.pem'. If you do not provide a certificates, a self signed one will be generated.
 2. Edit '.env' to your liking.
 3. chmod +x start.sh
-3. Run 'start.sh -d'. This will generate certificates if necessary, build and run the setup. If you want to stdout of the containers, omit '-d'.
+3. Run 'start.sh -d'. This will generate certificates if necessary, build and run the setup. If you would like stdout of the containers, omit '-d'.
 
 
 

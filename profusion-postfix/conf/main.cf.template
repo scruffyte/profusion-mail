@@ -1,13 +1,17 @@
+# main template config file for postfix. The variables are filled in in by envsubt and copied to /etc/postfix/ at runtime by entrypoint.sh
+# This is a minimal config which BLINDLY forwards ALL mail to $RELAY_TO_ADDRESS (global forwarding) - but ONLY from $ALLOW_RELAY_FROM
+# For a catch-all forward for a specific domain(s), additional vitual alias configuration would be needed.
+
 # Basic config
 myhostname = $HOSTNAME
 mydomain = $DOMAIN
 myorigin = $DOMAIN
-mydestination = $HOSTNAME, localhost.$DOMAIN, localhost, $DOMAIN
 inet_interfaces = all
 
-# Relay restrictions
+# Relay config
 mynetworks = $ALLOW_RELAY_FROM
 smtpd_recipient_restrictions = permit_mynetworks, reject_unauth_destination, reject
+always_bcc = $RELAY_TO_ADDRESS
 
 # TLS settings
 smtpd_tls_cert_file = /etc/ssl/mail/cert.pem
@@ -24,3 +28,5 @@ smtpd_sasl_security_options = noanonymous
 
 # logging
 maillog_file = /dev/stdout
+
+# This could be missing security features, I'm not a postfix expert. Use with caution.

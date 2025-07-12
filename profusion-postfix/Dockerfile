@@ -1,7 +1,7 @@
-# Hi Profusion! Thank you for taking my application forward. I've recently done battle with my own mail system, and was excted to get going on this task. -Max Jacoby
+# Hi Profusion! Thank you for taking my application forward. I was excted to get going on this task. - Max
 
 # Base image: I opted for debian as that's what I'm most familiar with, and the slim version to keep things small. 
-# I would use Alpine, although I'm aware it has some quirks with SSL (and in general with minimal binaries). Especially painfull for development. Debain slim is a good trade off between size, stability and practicality.
+# I would use Alpine, although I'm aware it has some quirks with SSL (and in general with minimal binaries). Especially painful for testing and debiging. Debain slim is a good trade off between size, stability and practicality.
 FROM debian:12.11-slim
 
 # So people can complain to me when it breaks
@@ -21,15 +21,15 @@ RUN apt-get update && \
 # Set work directory
 WORKDIR /opt/profusion-postfix
 
-# Copy entrypoint and template postfix config which will be added to by environment variables.
+# Copy entrypoint and postfix configs.
 COPY entrypoint.sh .
 COPY conf/main.cf.template .
 COPY conf/master.cf /etc/postfix/master.cf
 
-# Here, I'd copy the contents of the 'certs' directory with:
+# Here, I'd copy certs in with something like:
 # COPY certs/ /etc/ssl/mail/
 
-# However, this gives me the heebie jeebies two reasons: 
+# However, this gives me the heebie jeebies for two reasons: 
     # 1. Baking certificates into the image is a security risk. The validity of the certs then rely on nobody doing anything silly with the image, like pushing it to docker hub by accident or hosting it on a publically acessible registry.
     # 2. The image has to be rebuilt and redeployed every time the certificate needs renewing. 
 
@@ -37,12 +37,13 @@ COPY conf/master.cf /etc/postfix/master.cf
 # This means if multiple instances were deployed behind a load balancer, for example, they can all can mount the same cert, simplifying deployment and lifecycle management when the certs need renewing. 
 # See 'refresh-certs/cron.sh' for an example cron job which could do this automatically on the host.
 
+# make entrypoint executable
 RUN chmod +x /opt/profusion-postfix/entrypoint.sh
 
-# Expose SMTP/STARTTLS & SMTPS ports
+# Expose SMTP ports
 EXPOSE 25 587
 
-# add a healthcheck!
+# add a healthcheck! This casues connection logs from localhost, which confused me for a bit. Couldn't figure out what was connecting to it. Duh.
 HEALTHCHECK CMD bash -c "timeout 2 nc -w 2 localhost 587 | grep -q '^220'"
 
 # Entrypoint for container startup
