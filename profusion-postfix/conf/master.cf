@@ -10,9 +10,11 @@
 #               (yes)   (yes)   (no)    (never) (100)
 # ==========================================================================
 
-
+# MAXJACOBY: enable smtp on port 25, enable STARTTLS, disable authentication
 smtp      inet  n       -       y       -       -       smtpd
-
+  -o smtpd_tls_security_level=may
+  -o smtpd_tls_auth_only=no
+  -o smtpd_sasl_auth_enable=no
 
 #smtp      inet  n       -       y       -       1       postscreen
 #smtpd     pass  -       -       y       -       -       smtpd
@@ -21,26 +23,20 @@ smtp      inet  n       -       y       -       -       smtpd
 # Choose one: enable submission for loopback clients only, or for any client.
 #127.0.0.1:submission inet n -   y       -       -       smtpd
 
-
+# MAXJACOBY: enable submission on port 587, require TLS, ONLY accept authentication over TLS, and configure SASL for authentication, and some other bits
 submission inet n       -       y       -       -       smtpd
-#  -o syslog_name=postfix/submission
   -o smtpd_tls_security_level=encrypt
-  -o smtpd_sasl_auth_enable=yes
   -o smtpd_tls_auth_only=yes
-#  -o smtpd_reject_unlisted_recipient=no
-#     Instead of specifying complex smtpd_<xxx>_restrictions here,
-#     specify "smtpd_<xxx>_restrictions=$mua_<xxx>_restrictions"
-#     here, and specify mua_<xxx>_restrictions in main.cf (where
-#     "<xxx>" is "client", "helo", "sender", "relay", or "recipient").
-#  -o smtpd_client_restrictions=
-#  -o smtpd_helo_restrictions=
-#  -o smtpd_sender_restrictions=
+  -o smtpd_tls_loglevel=2
   -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
   -o smtpd_recipient_restrictions=permit_sasl_authenticated,reject
-  -o smtpd_tls_loglevel=2
-  -o smtpd_sasl_authenticated_header=yes
-#  -o milter_macro_daemon_name=ORIGINATING
 
+
+  # SASL config for submission auth
+  -o smtpd_sasl_type=dovecot
+  -o smtpd_sasl_path=inet:dovecot:12345
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_sasl_security_options=noanonymous
 
 # Choose one: enable submissions for loopback clients only, or for any client.
 #127.0.0.1:submissions inet n  -       y       -       -       smtpd

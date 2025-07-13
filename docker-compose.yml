@@ -13,8 +13,9 @@ services:
       - "25:25"     # SMTP
       - "587:587"   # SUBMISSION
     environment:    # Do not edit directly: use .env instead
-      ALLOW_RELAY_FROM: ${ALLOW_RELAY_FROM:-127.0.0.1}
-      RELAY_TO_ADDRESS: ${RELAY_TO_ADDRESS:-example@example.com}
+      ALLOW_FROM: ${ALLOW_FROM:-127.0.0.1}
+      HOST_TO_RELAY: ${HOST_TO_RELAY:-*}
+      RELAY_TO_HOST: ${RELAY_TO_HOST:-some.mailserver.com}
       HOSTNAME: ${HOSTNAME:-mail.example.com}
       DOMAIN: ${DOMAIN:-example.com}
     depends_on:

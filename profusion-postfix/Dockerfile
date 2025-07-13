@@ -25,6 +25,7 @@ WORKDIR /opt/profusion-postfix
 COPY entrypoint.sh .
 COPY conf/main.cf.template .
 COPY conf/master.cf /etc/postfix/master.cf
+COPY conf/transport.template .
 
 # Here, I'd copy certs in with something like:
 # COPY certs/ /etc/ssl/mail/

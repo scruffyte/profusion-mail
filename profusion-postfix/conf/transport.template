@@ -1,0 +1,1 @@
+$HOST_TO_RELAY   smtp:[$RELAY_TO_HOST]:25

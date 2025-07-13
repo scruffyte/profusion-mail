@@ -1,6 +1,4 @@
 # main template config file for postfix. The variables are filled in in by envsubt and copied to /etc/postfix/ at runtime by entrypoint.sh
-# This is a minimal config which BLINDLY forwards ALL mail to $RELAY_TO_ADDRESS (global forwarding) - but ONLY from $ALLOW_RELAY_FROM
-# For a catch-all forward for a specific domain(s), additional vitual alias configuration would be needed.
 
 # Basic config
 myhostname = $HOSTNAME
@@ -9,24 +7,17 @@ myorigin = $DOMAIN
 inet_interfaces = all
 
 # Relay config
-mynetworks = $ALLOW_RELAY_FROM
-smtpd_recipient_restrictions = permit_mynetworks, reject_unauth_destination, reject
-always_bcc = $RELAY_TO_ADDRESS
+mynetworks = $ALLOW_FROM
+smtpd_recipient_restrictions = permit_mynetworks, reject_unauth_destination
+transport_maps = hash:/etc/postfix/transport
 
-# TLS settings
+# Reject anything else
+mydestination =
+local_transport = error:This server does not accept unauthorised mail
+
+# TLS certs (see master.cf for TLS settings for daemons)
 smtpd_tls_cert_file = /etc/ssl/mail/cert.pem
 smtpd_tls_key_file = /etc/ssl/mail/key.pem
-smtpd_use_tls = yes
-smtpd_tls_security_level = may
-smtp_tls_security_level = encrypt
-
-# SASL config for dovecot
-smtpd_sasl_auth_enable = yes
-smtpd_sasl_type = dovecot
-smtpd_sasl_path = inet:dovecot:12345
-smtpd_sasl_security_options = noanonymous
 
 # logging
 maillog_file = /dev/stdout
-
-# This could be missing security features, I'm not a postfix expert. Use with caution.
