@@ -2,7 +2,8 @@ Author: Max Jacoby
 Date: 09.07.25
 Content: Profusion Media Interview Task: Create a Dockerised Mail Server
 
-You may clone this repository with 'git clone 
+You may clone this repository with 'git clone https://github.com/scruffyte/profusion-mail.git'
+This repository will be made private upon conclusion of the inverview.
 
 REQUIREMENTS:
 
@@ -11,12 +12,16 @@ REQUIREMENTS:
 
 HOW TO USE THIS IMAGE:
 
-1. If you have valid certificates, copy them into the 'certs' directory. They should be named 'cert.pem' and 'key.pem'. If you do not provide a certificates, a self signed one will be generated.
+1. If you have valid certificates, put them into the 'certs' directory. They should be named 'cert.pem' and 'key.pem'. If you do not provide certificates, a self signed one will be generated.
 2. Edit '.env' to your liking.
-3. chmod +x start.sh
-3. Run 'start.sh -d'. This will generate certificates if necessary, build and run the setup. If you would like stdout of the containers, omit '-d'.
+3. 'chmod +x start.sh'
+3. './start.sh -d'. This will generate certificates if necessary, build and run the containers. If you would like stdout of the containers, omit '-d'.
 
+NOTES:
 
+- Submission on port 587 require TLS and authentication. Default username and password are 'profusion' and 'OL3GhU0k1v2' - but can be changed by editing .env. (If this were a production environment, I would not put the default credentials in the readme of a public repo (or in compose.yml, for that matter). There are various security problems with the way I've done credentials, and since this is a demo, it's not such a big deal.)
+- I wasn't 100% on the routing instructions, so I made a best guess; ONLY mail from $ALLOW_FROM will be accepted. Everything else will be rejected. Allowed mail will be routed to $RELAY_TO_HOST. $HOST_TO_RELAY defaults to '*' and will route everything to $RELAY_TO_HOST unless otherwise specified. Nothing is delivered locally.
+- This setup does not currently include DKIM. Without DKIM and DNS entries like SPF and DMARC the deliveribility of emails sent from this server will be very low.
 
 -----------------
 
@@ -33,9 +38,3 @@ Write a brand new docker container. This container should:
   * The mail server should be configured to support TLS/SSL for sending and receiving
   * Expose port 25 (plaintext and STARTSSL), and port 587 (SSL only)
   * Present the script in a zip file
-
------------------
-
-
-
-  
